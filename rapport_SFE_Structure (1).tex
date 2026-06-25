@@ -1,0 +1,394 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+\usepackage{iftex}
+\let\Bbbk\relax
+
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bookmark}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{float}
+\usepackage{longtable,colortbl,calc}
+\usepackage{caption}
+\usepackage{enumitem}
+
+% Bibliographie
+\usepackage[backend=biber,style=ieee,sorting=none]{biblatex}
+\addbibresource{ref.bib}
+
+% Nomenclature / Abréviations
+\usepackage[intoc,french]{nomencl}
+\makenomenclature
+\renewcommand{\nomname}{Liste des abréviations}
+
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp}
+  \usepackage{newtxtext,newtxmath}
+\else
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+
+\usepackage[french]{babel}
+
+
+\geometry{
+  a4paper,
+  top=2.8cm,
+  bottom=2.8cm,
+  left=2.8cm,
+  right=2.7cm,
+  headheight=23pt,
+  headsep=0.8cm,
+  footskip=1.2cm
+}
+
+
+\definecolor{IbnZohrBlue}{RGB}{0,74,153}
+\definecolor{HCPGreen}{RGB}{0,128,96}
+\definecolor{ReportGold}{RGB}{190,140,25}
+\definecolor{ReportRule}{RGB}{205,210,218}
+\definecolor{ReportLight}{RGB}{245,248,252}
+\definecolor{ReportText}{RGB}{35,35,35}
+\definecolor{ReportAccent}{RGB}{0,102,204}
+
+
+\setstretch{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+
+
+\providecommand{\CoverLogo}[3]{}
+
+\renewcommand{\CoverLogo}[3]{%
+  \IfFileExists{#1}{%
+    \includegraphics[width=#3,height=#2,keepaspectratio]{#1}%
+  }{%
+    \fcolorbox{ReportRule}{white}{%
+      \begin{minipage}[c][#2][c]{#3}
+        \centering\scriptsize\color{ReportText}
+        Logo manquant\\[-0.1cm]
+        \texttt{\detokenize{#1}}
+      \end{minipage}%
+    }%
+  }%
+}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\color{IbnZohrBlue}\textsc{Rapport de Stage de Fin d'Études}}
+\fancyhead[R]{\footnotesize\color{IbnZohrBlue}\thepage}
+\fancyfoot[C]{\footnotesize\color{black!60}{Année Universitaire 2025/2026}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\makeatletter
+\renewcommand{\headrule}{%
+  \hbox to\headwidth{\color{ReportRule}\leaders\hrule height \headrulewidth\hfill}
+}
+\makeatother
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{IbnZohrBlue}}
+  {\Large\chaptertitlename\ \thechapter}
+  {0.4em}
+  {\Huge}
+  [\vspace{0.35ex}{\color{ReportRule}\titlerule}]
+
+\titleformat{\section}[block]
+  {\normalfont\Large\bfseries\color{ReportAccent}}
+  {\thesection}
+  {0.75em}
+  {}
+
+\titleformat{\subsection}[block]
+  {\normalfont\normalsize\bfseries\color{ReportText}}
+  {\thesubsection}
+  {0.75em}
+  {}
+
+
+\begin{document}
+
+
+\begin{titlepage}
+\newgeometry{top=1cm,bottom=1.35cm,left=1.55cm,right=1.55cm}
+\thispagestyle{empty}
+
+
+\begin{tikzpicture}[remember picture,overlay]
+
+  % Fond clair de l'en-tête
+  \fill[ReportLight]
+    (current page.north west) rectangle
+    ([yshift=-4.55cm]current page.north east);
+
+  % Bandeau supérieur bleu
+  \fill[IbnZohrBlue]
+    (current page.north west) rectangle
+    ([yshift=-0.42cm]current page.north east);
+
+  % Bandeau supérieur vert
+  \fill[HCPGreen]
+    ([yshift=-0.42cm]current page.north west) rectangle
+    ([yshift=-0.62cm]current page.north east);
+
+  % Ligne de séparation sous l'en-tête
+  \draw[ReportRule,line width=0.8pt]
+    ([xshift=1.55cm,yshift=-4.55cm]current page.north west) --
+    ([xshift=-1.55cm,yshift=-4.55cm]current page.north east);
+
+  % Bandeau inférieur doré
+  \fill[ReportGold]
+    (current page.south west) rectangle
+    ([yshift=0.26cm]current page.south east);
+
+\end{tikzpicture}
+
+
+\begin{tikzpicture}[remember picture,overlay]
+
+  % Logo gauche EST Guelmim déplacé un peu à gauche
+  \node[anchor=north west]
+    at ([xshift=1.05cm,yshift=-1.15cm]current page.north west) {%
+      \CoverLogo{2.png}{2.50cm}{6.50cm}%
+  };
+
+  % Texte central exactement au milieu de la page
+  \node[anchor=north, text width=5.6cm, align=center]
+    at ([yshift=-1.10cm]current page.north) {%
+      {\scriptsize\bfseries\color{ReportText} Royaume du Maroc}\\[0.07cm]
+      {\tiny Ministère de l’Enseignement Supérieur, de la Recherche}\\[-0.01cm]
+      {\tiny Scientifique et de l’Innovation}\\[0.13cm]
+      {\scriptsize\bfseries\color{IbnZohrBlue} Université Ibn Zohr}\\[0.06cm]
+      {\tiny École Supérieure de Technologie -- Guelmim}
+  };
+
+  % Logo droit HCP
+ \node[anchor=north east]
+    at ([xshift=-2.60cm,yshift=-0.95cm]current page.north east) {%
+      \CoverLogo{1.png}{3.05cm}{6.10cm}%
+};
+\end{tikzpicture}
+
+\vspace*{4.45cm}
+
+
+\begin{center}
+
+{\large\bfseries\color{HCPGreen} Rapport de Stage de Fin d’Études}\\[0.20cm]
+{\small \bfseries \textbf{Organisme d’accueil : Direction Régionale du  Haut-Commissariat au Plan de Guelmim}}
+
+\vspace{0.55cm}
+
+% Bloc principal du titre
+\begin{tikzpicture}
+\node[
+  draw=IbnZohrBlue,
+  line width=0.9pt,
+  rounded corners=7pt,
+  fill=white,
+  inner xsep=0.65cm,
+  inner ysep=0.45cm,
+  text width=0.80\textwidth,
+  align=center
+] {
+  {\fontsize{17}{21}\selectfont\bfseries\color{IbnZohrBlue}
+  RAPPORT DU STAGE DE FIN D’ÉTUDES}\\[0.38cm]
+
+  {\color{ReportGold}\rule{0.55\textwidth}{1.1pt}}\\[0.34cm]
+
+  {\fontsize{14}{18}\selectfont\bfseries\color{ReportText}
+  TITRE DE VOTRE SUJET DU STAGE}
+};
+\end{tikzpicture}
+
+\vspace{0.75cm}
+
+{\small Présenté et soutenu par}\\[0.13cm]
+{\large\bfseries\color{IbnZohrBlue} M. Prénom et Nom}
+
+\vspace{0.45cm}
+
+% Bloc diplôme
+\begin{tikzpicture}
+\node[
+  draw=ReportRule,
+  line width=0.7pt,
+  rounded corners=5pt,
+  fill=IbnZohrBlue!8,
+  inner xsep=0.55cm,
+  inner ysep=0.25cm,
+  text width=0.72\textwidth,
+  align=center
+] {
+  {\small Pour l’obtention du diplôme}\\[0.10cm]
+  {\small\bfseries Diplôme Universitaire de Technologie}\\[0.08cm]
+  {\small\bfseries Spécialité : Génie Informatique}
+};
+\end{tikzpicture}
+
+\vspace{0.55cm}
+
+% Encadrants
+\begin{tabular}{ll}
+\textbf{\color{HCPGreen} Encadrant académique :} & Prof. Hamza HAMOUT \\[0.12cm]
+\textbf{\color{HCPGreen} Encadrant du stage :} & M. Mohamed IDALFAHIM
+\end{tabular}
+
+\vspace{0.55cm}
+
+{\small\bfseries Soutenu le xx Mai 2026 devant le jury}
+
+\vspace{0.30cm}
+
+\footnotesize
+\begin{tabular}{lll}
+\textbf{Prof.} & \textbf{A. ELMRABTY,} & Maître de Conférences Habilité, EST Guelmim \\[0.08cm]
+\textbf{Prof.} & \textbf{M. TIFROUTE,} & Maître de Conférences Habilité, EST Guelmim \\[0.08cm]
+\textbf{Prof.} & \textbf{H. HAMOUT,} & Maître de Conférences Habilité, EST Guelmim
+\end{tabular}
+
+\vfill
+
+{\small\bfseries\color{ReportText} Année Universitaire 2025/2026}
+
+\end{center}
+
+\restoregeometry
+\end{titlepage}
+
+
+\nomenclature{API}{Application Programming Interface}
+\nomenclature{CNN}{Convolutional Neural Network}
+\nomenclature{IDS}{Intrusion Detection System}
+\nomenclature{SQL}{Structured Query Language}
+\nomenclature{HCP}{Haut-Commissariat au Plan}
+\nomenclature{DUT}{Diplôme Universitaire de Technologie}
+\nomenclature{ML}{Machine Learning}
+\nomenclature{IA}{Intelligence Artificielle}
+
+
+\pagenumbering{roman}
+
+\chapter*{Dédicaces}
+\addcontentsline{toc}{chapter}{Dédicaces}
+Texte de vos dédicaces ici...
+
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+Texte de vos remerciements ici...
+
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+Texte du résumé ici...
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+Abstract text here...
+
+\newpage
+\tableofcontents
+
+\newpage
+\listoffigures
+
+\newpage
+\listoftables
+
+\newpage
+\printnomenclature
+
+% ==========================================
+% CORPS DU RAPPORT
+% ==========================================
+\clearpage
+\pagenumbering{arabic}
+
+\chapter*{Introduction Générale}
+\addcontentsline{toc}{chapter}{Introduction Générale}
+
+Texte de votre introduction ici.
+
+Le machine learning occupe aujourd’hui une place importante dans plusieurs domaines informatiques. Plusieurs travaux ont présenté une revue des algorithmes d’apprentissage automatique, notamment l’étude de Pandey et al.~\cite{pandey2019machine}.
+
+\chapter{Contexte général du projet}
+
+\section{Présentation de l'organisme d'accueil}
+
+Texte ici...
+
+\section{Présentation du Haut-Commissariat au Plan}
+
+Texte ici...
+
+\chapter{Analyse et Conception}
+
+\section{Spécification des besoins}
+
+Texte ici...
+
+\section{Conception générale}
+
+Texte ici...
+
+\chapter{Réalisation}
+
+\section{Environnement technique}
+
+Texte ici...
+
+\section{Implémentation}
+
+Texte ici...
+
+\chapter*{Conclusion Générale}
+\addcontentsline{toc}{chapter}{Conclusion Générale}
+
+Texte de votre conclusion ici...
+
+% ==========================================
+% BIBLIOGRAPHIE
+% ==========================================
+\clearpage
+\printbibliography[heading=bibintoc,title={Bibliographie}]
+
+% ==========================================
+% ANNEXES
+% ==========================================
+\clearpage
+\appendix
+
+\chapter{Annexe A : Captures d’écran}
+
+Ajoutez ici les captures d’écran de votre application, interface, tableau de bord ou résultats.
+
+\section{Capture d’écran 1}
+
+Texte ici...
+
+\chapter{Annexe B : Code source}
+
+Ajoutez ici des extraits importants du code source.
+
+\section{Extrait de code}
+
+Texte ici...
+
+\chapter{Annexe C : Documents complémentaires}
+
+Ajoutez ici les documents, formulaires, schémas ou tableaux complémentaires.
+
+\end{document}
